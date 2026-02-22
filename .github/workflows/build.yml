@@ -1,0 +1,36 @@
+name: build
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "15 2 * * *" # 每天 UTC 02:15 自动更新
+
+permissions:
+  contents: write
+
+jobs:
+  gen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Generate module
+        run: |
+          python scripts/convert_dnsmasq.py
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add output/alidns_accelerated_domains_cn.module
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+          git commit -m "update: alidns_accelerated_domains_cn.module"
+          git push
