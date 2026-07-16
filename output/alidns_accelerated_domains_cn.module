@@ -1,6 +1,6 @@
 #!name=AliDNS for accelerated-domains.china.conf
 #!desc=Auto-generated from felixonmars/dnsmasq-china-list accelerated-domains.china.conf
-#!updated=2026-07-15 05:08:31Z
+#!updated=2026-07-16 05:18:20Z
 
 [Host]
 0.zone = server:https://dns.alidns.com/dns-query
